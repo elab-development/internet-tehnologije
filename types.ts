@@ -13,4 +13,6 @@ export interface FullDeckDto {
 export interface FullSubjectDto {
     id: number;
     name: string;
+    createdAt: Date;
+
 }
