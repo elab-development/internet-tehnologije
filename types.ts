@@ -3,7 +3,7 @@ export interface FullDeckDto {
     name: string;
     createdAt: Date;
     subject: {
-        id: string;
+        id: number;
         name: string;
         createdAt: Date;
     };
@@ -11,6 +11,6 @@ export interface FullDeckDto {
 }
 
 export interface FullSubjectDto {
-    id: string;
-    name: number;
+    id: number;
+    name: string;
 }
