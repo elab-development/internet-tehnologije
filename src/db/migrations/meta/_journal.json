@@ -8,6 +8,13 @@
       "when": 1765191721383,
       "tag": "0000_slimy_titania",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1766577831548,
+      "tag": "0001_bizarre_thunderball",
+      "breakpoints": true
     }
   ]
 }
