@@ -1,0 +1,1 @@
+sudo docker run --name flashcards-postgres -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=postgres -e POSTGRES_DB=flashcards -p 5432:5432 -v flashcards_pgdata:/var/lib/postgresql/data -d postgres:17
