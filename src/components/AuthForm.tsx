@@ -1,11 +1,50 @@
 "use client";
 
-import { useState } from "react";
+import { FormEvent, useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 type Mode = "login" | "register";
 
 export default function AuthForm({ mode }: { mode: Mode }) {
+    const router = useRouter();
+
+    //pokupimo podatke sa forme
+    const [name, setName] = useState("")
+    const [email, setEmail] = useState("")
+    const [pwd, setPwd] = useState("")
+
+    //komunikacija sa serverom
+    const handleSubmit = async (e: FormEvent) => {
+        e.preventDefault();
+        setErr("");
+        setLoading(true);
+
+        try {
+            const endpoint = mode === "login" ? "/api/auth/login" : "/api/auth/register";
+            const body = mode === "login" ? { email, password: pwd } : { name, email, password: pwd }
+            const res = await fetch(endpoint, {
+                method: "POST",
+                credentials: "include",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(body)
+            })
+
+            if (!res.ok) {
+                const message = "Greska pri autentifikaciji"
+                setErr(message);
+                return;
+            }
+
+            //token je vec upisan u cookie na serveru
+            //potrebno je da resfreshujemo sve komande koje koriste cookie
+            router.refresh();
+            router.push("/");
+        } finally {
+            setLoading(false)
+        }
+
+    }
 
     const [err, setErr] = useState("");
     const [loading, setLoading] = useState(false);
@@ -31,13 +70,15 @@ export default function AuthForm({ mode }: { mode: Mode }) {
             </div>
 
             <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-                <form className="space-y-6">
+                <form onSubmit={handleSubmit} className="space-y-6">
                     {mode === "register" && (
                         <div>
                             <label className="block text-sm font-medium text-gray-900">Ime i prezime</label>
                             <input
                                 type="text"
                                 required
+                                value={name}
+                                onChange={(e) => setName(e.target.value)}
                                 className="mt-2 block w-full rounded-md border border-gray-300 bg-white px-3 py-1.5 text-base placeholder:text-gray-400 focus:border-indigo-600 focus:outline-none sm:text-sm"
                             />
                         </div>
@@ -48,6 +89,8 @@ export default function AuthForm({ mode }: { mode: Mode }) {
                         <input
                             type="email"
                             required
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
                             className="mt-2 block w-full rounded-md border border-gray-300 bg-white px-3 py-1.5 text-base placeholder:text-gray-400 focus:border-indigo-600 focus:outline-none sm:text-sm"
                         />
                     </div>
@@ -57,6 +100,8 @@ export default function AuthForm({ mode }: { mode: Mode }) {
                         <input
                             type="password"
                             required
+                            value={pwd}
+                            onChange={(e) => setPwd(e.target.value)}
                             autoComplete={mode === "login" ? "current-password" : "new-password"}
                             className="mt-2 block w-full rounded-md border border-gray-300 bg-white px-3 py-1.5 text-base placeholder:text-gray-400 focus:border-indigo-600 focus:outline-none sm:text-sm"
                         />

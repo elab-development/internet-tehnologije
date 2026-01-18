@@ -1,6 +1,6 @@
 "use client"
 
-import React, { createContext, useContext, useState, useMemo } from "react";
+import React, { createContext, useContext, useState, useMemo, useCallback, useEffect } from "react";
 
 export type User = { id: string; name: string; email: string; createdAt: string }
 
@@ -27,5 +27,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 //hook koji pozivamo kad nam treba AuthProvider ili neki njegov deo
 export function useAuth() {
     const ctx = useContext(AuthContext);
+    if (!ctx) throw new Error("useAuth must be used inside AuthProvider")
     return ctx;
 }
