@@ -2,6 +2,7 @@ import { db } from "./index"
 import { usersTable, subjects, decks } from "./schema"
 import bcrypt from "bcrypt"
 
+/*
 const SUBJECT_IDS = {
     MAT1: "00000000-0000-0000-0000-000000000101",
     ECO: "00000000-0000-0000-0000-000000000102",
@@ -18,6 +19,7 @@ const DECK_IDS = {
     ECO: "00000000-0000-0000-0000-000000000201",
     MNG: "00000000-0000-0000-0000-000000000202",
 } as const;
+ */
 
 const hash = await bcrypt.hash("1234", 10)
 
@@ -43,6 +45,8 @@ await db.transaction(async (tx) => {
         }
     ]).onConflictDoNothing()
 
+    /*
+
     await tx.insert(subjects).values([
         { id: SUBJECT_IDS.MAT1, name: "Matematika 1" },
         { id: SUBJECT_IDS.ECO, name: "Ekonomija" },
@@ -67,5 +71,6 @@ await db.transaction(async (tx) => {
             subjectId: SUBJECT_IDS.MNG,
         },
     ]).onConflictDoNothing();
+    */
 
 })
