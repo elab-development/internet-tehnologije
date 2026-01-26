@@ -24,7 +24,7 @@ export default function Card({ deck, subjects }: Props) {
                 <h3 className="font-semibold">{deck.name}</h3>
                 <p className="text-sm text-gray-500">
                     {
-                        subjects.find((s) => s.id === deck.subject.id)?.name
+                        subjects.find((s) => s.id === deck.subjectId)?.name
                     }
                 </p>
             </div>

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { mockDecks, mockSubjects } from "@/mock/data";
+//import { mockDecks, mockSubjects } from "@/mock/data";
 import { FullSubjectDto, FullDeckDto } from "@/shared/types";
 import Card from "./Card";
 import Sidebar from "./Sidebar";
@@ -10,21 +10,34 @@ type Props = { subjects: FullSubjectDto[] }
 
 export default function DeckBrowser({ subjects }: Props) {
 
-    const [decks, setDecks] = useState<FullDeckDto[]>(mockDecks);
+    const [decks, setDecks] = useState<FullDeckDto[]>([]);
+    const [allDecks, setAllDecks] = useState<FullDeckDto[]>([]);
     const [search, setSearch] = useState("");
-    const [subjectId, setSubjectId] = useState<number | null>(null);
+    const [subjectId, setSubjectId] = useState<string | null>(null);
+
+    const loadDecks = async () => {
+        const res = await fetch('/api/decks')
+        const data = await res.json()
+
+        setAllDecks(data)
+        setDecks(data)
+    }
+
+    useEffect(() => {
+        loadDecks()
+    }, [])
 
     useEffect(() => {
         console.log(search);
-        let data = mockDecks;
+        let data = allDecks;
 
-        if (subjectId !== null) data = data.filter(d => d.subject.id === subjectId);
+        if (subjectId !== null) data = data.filter(d => d.subjectId === subjectId);
         if (search.trim()) {
             data = data.filter(d => d.name.toLowerCase().includes(search.toLowerCase()));
         }
         setDecks(data);
 
-    }, [subjectId, search]);
+    }, [subjectId, search, allDecks]);
 
     return (
 

@@ -4,8 +4,8 @@ import FilterBtn from "./FilterBtn";
 type Props = {
     search: string;
     setSearch: (value: string) => void;
-    subjectId: number | null;
-    setSubjectId: (value: number | null) => void;
+    subjectId: string | null;
+    setSubjectId: (value: string | null) => void;
     subjects: FullSubjectDto[];
 };
 

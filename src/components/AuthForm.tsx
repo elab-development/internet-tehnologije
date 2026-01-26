@@ -3,11 +3,13 @@
 import { FormEvent, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { useAuth } from "./AuthProvider";
 
 type Mode = "login" | "register";
 
 export default function AuthForm({ mode }: { mode: Mode }) {
     const router = useRouter();
+    const { refresh } = useAuth()
 
     //pokupimo podatke sa forme
     const [name, setName] = useState("")
@@ -37,6 +39,7 @@ export default function AuthForm({ mode }: { mode: Mode }) {
             }
 
             //token je vec upisan u cookie na serveru
+            await refresh()
             //potrebno je da resfreshujemo sve komande koje koriste cookie
             router.refresh();
             router.push("/");
