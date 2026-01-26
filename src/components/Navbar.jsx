@@ -36,6 +36,7 @@ export default function Navbar() {
                         <button
                             aria-label="Profil"
                             className="flex h-10 w-10 items-center cursor-pointer justify-center rounded-full bg-indigo-100 text-indigo-600 transition hover:bg-indigo-200"
+                            onClick={() => setOpen(prev => !prev)}
                         >
                             <RiUser3Line className="h-6 w-6" />
                         </button>
