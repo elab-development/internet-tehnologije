@@ -3,7 +3,7 @@
 import { RiUser3Line } from "@remixicon/react";
 import Link from "next/link";
 import { useState } from "react";
-import { useAuth } from "@components/AuthProvider"
+import { useAuth } from "@/components/AuthProvider"
 
 export default function Navbar() {
     const { status, user, logout } = useAuth()
